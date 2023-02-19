@@ -1,2 +1,2 @@
 # Fahrputt
-Broken elevators in Berlin,
+App to detect Broken Elevators and Escelators in Berlin.
