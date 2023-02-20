@@ -17,6 +17,7 @@ namespace Fahrputt.ViewElements
             Padding = VisualStyles.MediumPadding;
             Margin = VisualStyles.BigMargin;
             LineBreakMode = LineBreakMode.WordWrap;
+            WidthRequest = 250;
         }
     }
 }

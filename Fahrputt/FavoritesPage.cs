@@ -41,7 +41,7 @@ namespace Fahrputt
         //New Favorite entry
         private void OnFavoriteAdded(string stationName)
         {
-            if(!stationDataStacks.ContainsKey(stationName))
+            if(!stationDataStacks.ContainsKey(stationName) && appManager.StationDatas.ContainsKey(stationName))
             {
                 StationDataStack stationData = new StationDataStack(appManager.StationDatas[stationName]);
                 stationData.ButtonSetFavorite.Clicked += OnStationClickFavorite;

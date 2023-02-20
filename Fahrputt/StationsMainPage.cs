@@ -1,12 +1,8 @@
-﻿using Fahrputt.Logic;
+﻿using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
+using Fahrputt.Logic;
 using Fahrputt.Models;
 using Fahrputt.ViewElements;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fahrputt
 {
@@ -26,6 +22,12 @@ namespace Fahrputt
 
         public StationsMainPage()
         {
+            this.Behaviors.Add(new StatusBarBehavior
+            {
+                StatusBarColor = Colors.Black
+            });
+
+            //this.Behaviors.Add(behavi)
 
             // Code to run on the main thread
             allStationStacks =  new Dictionary<string, StationDataStack>();
@@ -34,6 +36,7 @@ namespace Fahrputt
             stationStack = new VerticalStackLayout();
             scrollView.Content= stationStack;
             Content = stationStack;
+            
 
             Console.WriteLine("++++++++++++++++++++++++++++++INIT STATION PAGE");
 
@@ -79,7 +82,10 @@ namespace Fahrputt
                 //Add missing fewvorites
                 foreach(string fav in favoritesToAdd)
                 {
-                    allStationStacks[fav].SetToFavorites(true);
+                    if(allStationStacks.ContainsKey(fav))
+                    {
+                        allStationStacks[fav].SetToFavorites(true);
+                    }
                 }
 
             });

@@ -16,6 +16,7 @@ namespace Fahrputt.ViewElements
             Padding = VisualStyles.BigPadding;
             Margin = VisualStyles.MediumMargin;
             FontAttributes = FontAttributes.Bold;
+            //Style = new Style(typeof(Label));
 
         }   
 

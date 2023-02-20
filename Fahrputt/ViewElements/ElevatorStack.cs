@@ -16,20 +16,20 @@ namespace Fahrputt.ViewElements
             if(isElevator)
                 image.Source = new FileImageSource
                 {
-                    File = "aufzug.png"
+                    File = "aufzug_white.png"
                 };
             else
                 image.Source = new FileImageSource
                 {
-                    File = "treppe.png"
+                    File = "treppe_white.png"
                 };
 
             image.HeightRequest = 32;
             image.WidthRequest = 32;
 
 
-            this.Add(image);
             WarningInfoVerticalStack warningInfoStack = new WarningInfoVerticalStack(elevator);
+            this.Add(image);
             this.Add(warningInfoStack);
         }
     }

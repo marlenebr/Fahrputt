@@ -20,11 +20,11 @@ namespace Fahrputt.ViewElements
             //{
             //    BackgroundColor = VisualStyles.WarningColor;
             //}
-            BackgroundColor = VisualStyles.RegularColor;
+            BackgroundColor = VisualStyles.RegularColorDark;
 
             Padding = VisualStyles.SmallPadding;
             Margin = VisualStyles.MediumMargin;
-
+            
             LabelStationName labelStationName = new LabelStationName(stationData.StationName);
             
             HorizontalStackLayout horizontalstack = new HorizontalStackLayout();

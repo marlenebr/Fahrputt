@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Abot2.Core;
-using Abot2.Crawler;
+﻿using Abot2.Crawler;
 using Abot2.Poco;
-using Serilog;
 
 namespace Fahrputt.Logic
 {
@@ -29,40 +25,15 @@ namespace Fahrputt.Logic
         {
             var config = new CrawlConfiguration
             {
-                MaxPagesToCrawl = 1, //Only crawl 10 pages
-                MinCrawlDelayPerDomainMilliSeconds = 3000 //Wait this many millisecs between requests
+                MaxPagesToCrawl = 1,
+                MinCrawlDelayPerDomainMilliSeconds = 3000
             };
             politeWebCrawlerElevators = new PoliteWebCrawler(config);
             politeWebCrawlerStations = new PoliteWebCrawler(config);
-            Console.WriteLine("Created polite ");
         }
 
-        public async Task CrawlAsync()
+        public async Task CrawlBrokenElevatorData()
         {
-            //Log.Logger = new LoggerConfiguration()
-            //    .MinimumLevel.Information()
-            //    .WriteTo.Console()
-            //    .CreateLogger();
-
-            //Log.Logger.Information("Demo starting up!");
-
-
-           // await CrawlAllstations();
-            await CrawlBrokenElevatorData();
-            
-        }
-
-        //private async Task CrawlAllstations()
-        //{
-
-        //    var crawlResult = await politeWebCrawlerStations.CrawlAsync(new Uri("https://sbahn.berlin/fahren/bahnhofsuebersicht/"));
-        //}
-
-        private async Task CrawlBrokenElevatorData()
-        {
-
-            //politeWebCrawler.PageCrawlCompleted += PageCrawlCompleted;//Several events available...
-
             var crawlResult = await politeWebCrawlerElevators.CrawlAsync(new Uri("https://sbahn.berlin/fahren/bahnhofsuebersicht/barrierefrei-unterwegs/aufzugs-fahrtreppenstoerung"));
         }
 

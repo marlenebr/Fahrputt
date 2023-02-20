@@ -28,6 +28,8 @@ namespace Fahrputt.ViewElements
 
         public ButtonSetFavorite(StationData stationData)
         {
+            this.Style = VisualStyles.ButtonstyleDark;
+
             defaultColor = BackgroundColor;
             StationName = stationData.StationName;
             //Text = "(o)";

@@ -11,19 +11,7 @@ namespace Fahrputt.Logic
 {
     class Scraper
     {
-
         public Crawler crawler;
-
-        //private static Scraper instance = null;
-        //public static Scraper GetInstance
-        //{
-        //    get
-        //    {
-        //        if (instance == null)
-        //            instance = new Scraper();
-        //        return instance;
-        //    }
-        //}
 
         public bool ScrapeDone;
         public Scraper()
@@ -31,19 +19,21 @@ namespace Fahrputt.Logic
             //Stationdatas = new List<StationData>();
             crawler = Crawler.GetInstance;
             crawler.politeWebCrawlerElevators.PageCrawlCompleted += ElevatorCrawlCompleted;//Several events available...
+            crawler.politeWebCrawlerElevators.PageCrawlDisallowed += CrawlDisallowed;
             Console.WriteLine("LISTENING ");
 
 
         }
 
-        public async Task GetAllElevatorDataAsync()
+        private void CrawlDisallowed(object sender, PageCrawlDisallowedArgs e)
         {
-            await Task.Run(crawler.CrawlAsync);
+            throw new NotImplementedException();
         }
 
-        //public List<StationData> Stationdatas;
-
-        //public Action<StationData> OnNewStationDataAdded;
+        public async Task GetAllElevatorDataAsync()
+        {
+            await Task.Run(crawler.CrawlBrokenElevatorData);
+        }
 
         public Action<Dictionary<string,StationData>> OnScrapeDone;
 
@@ -53,13 +43,6 @@ namespace Fahrputt.Logic
             var httpStatus = e.CrawledPage.HttpResponseMessage.StatusCode;
             string rawPageText = e.CrawledPage.Content.Text;
             ScrapeBrokenelEvators(rawPageText);
-        }
-
-        private void StationCrawlCompleted(object sender, PageCrawlCompletedArgs e)
-        {
-            var httpStatus = e.CrawledPage.HttpResponseMessage.StatusCode;
-            string rawPageText = e.CrawledPage.Content.Text;
-            ScrapeAllStations(rawPageText);
         }
 
         private void ScrapeBrokenelEvators(string rawPagetext)
@@ -89,7 +72,7 @@ namespace Fahrputt.Logic
                     List<HtmlNode> elevatorsOfStation = elevatorsNode[0].ParentNode.Descendants("li").ToList();
                     foreach (HtmlNode elevatorOfStation in elevatorsOfStation)
                     {
-                        //ELEVATOR
+                        //Elevator
 
                         List<HtmlNode> elevatorOrStairs = elevatorOfStation.Descendants("span").Where(node => node.GetAttributeValue("data-tooltip", "").Contains("Aufzug")).ToList();
 
@@ -101,7 +84,8 @@ namespace Fahrputt.Logic
                             stationData.Elevators.Add(new ElevatorInfo { ElevatorWarningState = ElevatorWarningState.Unchanged, WarningType = elevatorAnnouncementText, LocationText = elevatorInfoText, IsElevator = true });
                         }
 
-                        //ROLLTREPPE
+                        //Escelator
+
                         List<HtmlNode> stairs = elevatorOfStation.Descendants("span").Where(node => node.GetAttributeValue("data-tooltip", "").Contains("Rolltreppe")).ToList();
 
                         foreach (HtmlNode stair in stairs)
@@ -111,23 +95,9 @@ namespace Fahrputt.Logic
                             string elevatorAnnouncementText = stair.ParentNode.Descendants("span").Where(node => node.GetAttributeValue("data-equip-col", "").Contains("announcement")).ToList()[0].InnerText;
                             stationData.Escalators.Add(new ElevatorInfo { ElevatorWarningState = ElevatorWarningState.Unchanged, WarningType = elevatorAnnouncementText, LocationText = elevatorInfoText, IsElevator = false });
                         }
-                        //one elevator
-                        //List<HtmlNode> elevatorsInfoDescription = elevatorOfStation.Descendants("span").Where(node => node.GetAttributeValue("data-equip-col", "").Contains("description")).ToList();
-                        //string elevatorInfoText = elevatorsInfoDescription[0].InnerText;
-                        //List<HtmlNode> elevatoranouncement = elevatorOfStation.Descendants("span").Where(node => node.GetAttributeValue("data-equip-col", "").Contains("announcement")).ToList();
-                        //string elevatorAnnouncementText = elevatoranouncement[0].InnerText;
-                        //stationData.Elevators.Add(new ElevatorInfo {ElevatorWarningState = ElevatorWarningState.Unchanged, WarningType = elevatorAnnouncementText, LocationText = elevatorInfoText });
-
                     }
-
-                    Console.WriteLine("---- END" + stationName + " ----");
-
                 }
-
                 scrapedstations.Add(stationData.StationName,stationData);
-                //Stationdatas.Add(stationData);
-                //OnNewStationDataAdded?.Invoke(stationData); //TODO: DAS Geth nicht
-
             }
 
             ScrapeDone = true;
@@ -147,7 +117,5 @@ namespace Fahrputt.Logic
             }
 
         }
-
-
     }
 }

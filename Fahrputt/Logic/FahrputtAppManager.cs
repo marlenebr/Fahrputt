@@ -60,15 +60,6 @@ namespace Fahrputt.Logic
 
             FavoriteStations = new List<string>();
             stationDataManger = new StationDataManager(this);
-            //if (scraper.ScrapeDone)
-            //{
-            //    OnScrapeDone(StationDatas);
-            //}
-            //else
-            //{
-            //    scraper.OnScrapeDone += OnScrapeDone;
-            //}
-            //TODO: COMPARE
             Task.Run(DoAllAsyncInit);
 
 
@@ -81,24 +72,19 @@ namespace Fahrputt.Logic
             await Task.Run(scraper.GetAllElevatorDataAsync);
 
             stationDataManger.OnStationdataFileReadDone += OnStationDataFilereadDone;
-            await Task.Run(stationDataManger.ReadFile);
-
-            stationDataManger.OnFavoritesFileReadDone += OnFavoritesFilereaddone;
-            await Task.Run(stationDataManger.ReadFavoritesFileAsync);
-
-            //FinishInitializazion();
-            //Console.WriteLine("DOOONNEEEEE");
+            await Task.Run(stationDataManger.ReadFile);       
         }
 
-        //private void OnStationdataFileWriteDone(bool succes)
-        //{
-        //    Console.WriteLine("AWAIT WRITE STATION DATA");
-        //    OnInitializationDone?.Invoke();
-        //}
+        private async Task StartLoadFavoritessync()
+        {
+            stationDataManger.OnFavoritesFileReadDone += OnFavoritesFilereaddone;
+            await Task.Run(stationDataManger.ReadFavoritesFileAsync);
+        }
 
         private void OnScrapeDone(Dictionary<string, StationData> stationData)
         {
             ScrapingDone = true;
+            Task.Run(StartLoadFavoritessync);
             ScrapedStationDatas = stationData;
             //object value = Task.Run(stationDataManger.WriteFileAsync);
             if (FileReadDone)
@@ -107,16 +93,6 @@ namespace Fahrputt.Logic
             }
         }
 
-        //private void OnFavoritesFilereaddone(string[] obj)
-        //{
-        //    if(obj != null)
-        //    {
-        //        foreach(string stationName in obj)
-        //        {
-        //            NewFavoriteSet(stationName, true);
-        //        }
-        //    }
-        //}
         private void OnFavoritesFilereaddone(string[] favoriteStationName)
         {
             if(favoriteStationName ==null)

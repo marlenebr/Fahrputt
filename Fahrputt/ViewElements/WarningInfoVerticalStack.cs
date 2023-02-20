@@ -16,14 +16,14 @@ namespace Fahrputt.ViewElements
 
             if(elevator.ElevatorWarningState == ElevatorWarningState.Unchanged)
             {
-                BackgroundColor = VisualStyles.RegularColor;
+                BackgroundColor = VisualStyles.RegularColorDark;
             }
             else if( elevator.ElevatorWarningState == ElevatorWarningState.WarningChanged || elevator.ElevatorWarningState == ElevatorWarningState.New)
-                BackgroundColor = VisualStyles.WarningColor;
+                BackgroundColor = VisualStyles.WarningColorDark;
 
             else if (elevator.ElevatorWarningState == ElevatorWarningState.Fixed)
             {
-                BackgroundColor = VisualStyles.FixedColor;
+                BackgroundColor = VisualStyles.ConfirmationColorDark;
             }
 
             LabelInfoText warningInfoLabel = new LabelInfoText(elevator.WarningType, FontAttributes.Bold);
