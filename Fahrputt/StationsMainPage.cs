@@ -22,12 +22,16 @@ namespace Fahrputt
 
         private bool IsLoaded = false;
 
+        private LoadingStack loadingStack;
+
         public StationsMainPage()
         {
             this.Behaviors.Add(new StatusBarBehavior
             {
                 StatusBarColor = Colors.Black
             });
+
+            loadingStack = new LoadingStack();
 
             //this.Behaviors.Add(behavi)
 
@@ -36,6 +40,7 @@ namespace Fahrputt
             favoritesToAdd = new List<string>();
             scrollView = new ScrollView();
             stationStack = new VerticalStackLayout();
+            stationStack.Add(loadingStack);
             scrollView.Content= stationStack;
             Content = stationStack;
             
@@ -80,7 +85,7 @@ namespace Fahrputt
         private void OnInitializationDone()
         {
             Console.WriteLine("STARTFILL?");
-            FillData();
+            //FillData();
         }
 
         private void FillData()
@@ -91,7 +96,8 @@ namespace Fahrputt
                 {
                     OnNewStationDataAdded(data);
                 }
-
+                if(stationStack.Contains(loadingStack))
+                    stationStack.Remove(loadingStack);
                 scrollView.Content = stationStack;
                 Content = scrollView;
                 Console.WriteLine("-------fill done");

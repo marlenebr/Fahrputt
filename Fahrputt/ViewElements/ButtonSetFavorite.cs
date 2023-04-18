@@ -25,8 +25,6 @@ namespace Fahrputt.ViewElements
 
         private ImageSource UnFavoriteImage;
 
-        public ImageSource TEST;
-
         public ButtonSetFavorite(StationData stationData)
         {
             StationName = stationData.StationName;
