@@ -46,7 +46,7 @@ namespace Fahrputt.ViewElements
         public static Color TextColorBright = new Color(0, 0, 0); //black
 
 
-        public static Color SetFavoriteColor = new Color(243, 219, 137); //gelborange
+        //public static Color SetFavoriteColor = new Color(243, 219, 137); //gelborange
 
 
 

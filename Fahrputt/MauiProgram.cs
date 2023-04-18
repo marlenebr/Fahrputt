@@ -23,8 +23,8 @@ public static class MauiProgram
         Console.WriteLine("-------1");
         //builder.Services.AddSingleton<StationDataService>();
         //builder.Services.AddSingleton<StationItemsViewModel>();
-        builder.Services.AddSingleton<FavoritesPage>();
         builder.Services.AddSingleton<StationsMainPage>();
+        builder.Services.AddSingleton<FavoritesPage>();
         //StationsMainPage stationMainPage = new StationsMainPage();  
         return builder.Build();
     }

@@ -20,6 +20,8 @@ namespace Fahrputt
 
         List<string> favoritesToAdd;
 
+        private bool IsLoaded = false;
+
         public StationsMainPage()
         {
             this.Behaviors.Add(new StatusBarBehavior
@@ -59,6 +61,21 @@ namespace Fahrputt
 
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (!IsLoaded)
+                return;
+            foreach (KeyValuePair<string,StationData> allData in appManager.StationDatas)
+            {
+                if (allStationStacks.ContainsKey(allData.Key))
+                {
+                    if(allStationStacks[allData.Key].ButtonSetFavorite.IsFavorite != allData.Value.IsFavourite)
+                    allStationStacks[allData.Key].SetToFavorites(allData.Value.IsFavourite);
+                }
+            }
+        }
+
 
         private void OnInitializationDone()
         {
@@ -78,16 +95,7 @@ namespace Fahrputt
                 scrollView.Content = stationStack;
                 Content = scrollView;
                 Console.WriteLine("-------fill done");
-
-                //Add missing fewvorites
-                foreach(string fav in favoritesToAdd)
-                {
-                    if(allStationStacks.ContainsKey(fav))
-                    {
-                        allStationStacks[fav].SetToFavorites(true);
-                    }
-                }
-
+                IsLoaded = true;
             });
         }
 

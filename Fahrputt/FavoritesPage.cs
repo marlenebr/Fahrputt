@@ -13,6 +13,8 @@ namespace Fahrputt
 
         private Dictionary<string, StationDataStack> stationDataStacks;
 
+        private bool IsLoaded = false;
+
 
         public FavoritesPage()
         {
@@ -36,6 +38,18 @@ namespace Fahrputt
                     OnFavoriteAdded(favorite);
                 }
             }
+            IsLoaded = true;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (!IsLoaded)
+                return;
+            foreach (StationDataStack fav in stationDataStacks.Values)
+            {
+                fav.SetToFavorites(true);
+            }
         }
 
         //New Favorite entry
@@ -54,8 +68,11 @@ namespace Fahrputt
         //Removing favorite Entry
         private void OnFavoriteRemoved(string stationName)
         {
-            stationStack.Remove(stationDataStacks[stationName]);
-            stationDataStacks.Remove(stationName);
+            if (stationStack.Contains(stationDataStacks[stationName]))
+            {
+                stationStack.Remove(stationDataStacks[stationName]);
+                stationDataStacks.Remove(stationName);
+            }
         }
 
         private void OnStationClickFavorite(object sender, EventArgs e)

@@ -1,8 +1,9 @@
 ﻿using Fahrputt.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Fahrputt.ViewElements
 {
-    class ButtonSetFavorite : Button
+    class ButtonSetFavorite : ImageButton
     {
         public string StationName;
 
@@ -20,19 +21,15 @@ namespace Fahrputt.ViewElements
             }
         }
 
-        private Color defaultColor;
-
         private ImageSource FavoriteImage;
 
         private ImageSource UnFavoriteImage;
 
+        public ImageSource TEST;
+
         public ButtonSetFavorite(StationData stationData)
         {
-            this.Style = VisualStyles.ButtonstyleDark;
-
-            defaultColor = BackgroundColor;
             StationName = stationData.StationName;
-            //Text = "(o)";
             CornerRadius = VisualStyles.RoundedBorder;
             FavoriteImage = new FileImageSource
             {
@@ -45,21 +42,18 @@ namespace Fahrputt.ViewElements
             };
             VerticalOptions = LayoutOptions.Center;
             HorizontalOptions = LayoutOptions.Center;
-            ContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Top, 6);
             IsFavorite = stationData.IsFavourite;
         }
 
-        public void SetButtonColor()
+        private void SetButtonColor()
         {
             if (isFavorite)
-            {
-                BackgroundColor = VisualStyles.SetFavoriteColor;
-                ImageSource = FavoriteImage;
+            { 
+                Source = FavoriteImage;
             }
             else
             {
-                BackgroundColor = defaultColor;
-                ImageSource= UnFavoriteImage;
+                Source= UnFavoriteImage;
             }
         }
     }
